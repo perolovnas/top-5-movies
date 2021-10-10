@@ -1,5 +1,5 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import BaseSection from './components/BaseSection.vue'
 import axios from 'axios'
 </script>
 
@@ -7,10 +7,22 @@ import axios from 'axios'
   <div class="app-wrapper">
       <div class="wrapper">
         <div class="inner">
-          {{result}}
+          <BaseSection
+            v-for="(results, i) in result" :key="i"
+            :Index="i+1"
+            :Poster="results.data.Poster"
+            :Title="results.data.Title"
+            :Ratings="results.data.Ratings"
+            :Plot="results.data.Plot"
+            :Rated="results.data.Rated"
+            :Genre="results.data.Genre"
+            :Actors="results.data.Actors"
+            :Director="results.data.Director"
+            :Runtime="results.data.Runtime"
+            :Released="results.data.Released"
+          />
         </div>
       </div>
-    <HelloWorld v-if="false" />
   </div>
 </template>
 
@@ -23,11 +35,11 @@ export default {
   },
   mounted () {
     axios.all([
-      axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=dirty-dancing`),
+      axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=the-two-towers`),
       axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=terminator-2`),
+      axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=dirty-dancing`),
       axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=charlie-bartlett`),
       axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=the-village`),
-      axios.get(`https://www.omdbapi.com/?apikey=8fbe3f08&t=the-two-towers`),
     ])
     .then(response => (this.result = response))
   }
@@ -36,9 +48,9 @@ export default {
 
 <style lang="scss">
 * {
-  box-shadow: 0 0 0 1px black;
-  margin: 0;
-  padding: 0;
+  // box-shadow: 0 0 0 1px black;
+  // margin: 0;
+  // padding: 0;
   box-sizing: border-box;
 }
 
@@ -48,9 +60,10 @@ export default {
   align-items: flex-start;
   width: 100%;
   height: auto;
+
+  .wrapper {
+    width: 100%;
+  }
 }
 
-.app-wrapper .wrapper {
-  width: 100%;
-}
 </style>
